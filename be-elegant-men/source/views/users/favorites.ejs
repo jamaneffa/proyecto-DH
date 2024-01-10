@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <%- include('../partials/head.ejs') %>
+        <script src='/scripts/favorites/showFavorites.js'></script>
+    </head>
+    <body>
+        <%- include('../partials/header.ejs') %>
+        <main>
+            <%- include('../partials/navBrands.ejs') %>
+            <input type="hidden" name="userId" id="userId" value="<%= locals.userLogged.id %>">
+            <section class="containerListProduct">
+
+            </section>
+            <%- include('../partials/navBrands.ejs') %>
+        </main>
+        <%- include('../partials/footer.ejs') %>
+    </body>
+</html>

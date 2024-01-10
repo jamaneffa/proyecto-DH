@@ -1,0 +1,47 @@
+@import url('header.css');
+@import url('login.css');
+@import url('register.css');
+@import url('footer.css');
+@import url('productDetail.css');
+@import url('index.css');
+@import url('cart.css');
+@import url('favorites.css');
+@import url('createProduct.css');
+@import url('listProducts.css');
+@import url('profile.css');
+@import url('navBrands.css');
+@import url('editProduct.css');
+@import url('contact.css');
+@import url('notFound.css');
+
+
+* {
+    list-style-type: none;
+    text-decoration: none;    
+    box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
+}
+
+body {
+    margin: 0%;
+    padding: 0%;
+}
+
+input::placeholder {
+    color: #0e141a;
+    font-weight: 500;
+}
+
+.divError {
+    font-size: 15px;
+    color: red;
+}
+
+span {
+    font-size: 13px;
+    display: none;
+    color: red;
+    margin-bottom: 3%;  
+}
+
+

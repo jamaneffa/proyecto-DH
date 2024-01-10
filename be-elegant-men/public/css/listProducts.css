@@ -1,0 +1,108 @@
+.containerListProduct {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0%;
+    background-image: url(../img/backgrounds/background.jpg);
+}
+
+.producto{
+    margin: 2% 2%;
+    border-radius: 15px;
+    display: block;
+    -webkit-transition:-webkit-transform 0.5s ease-out;
+    -moz-transition:-moz-transform 0.5s ease-out;
+    -o-transition:-o-transform 0.5s ease-out;
+    -ms-transition:-ms-transform 0.5s ease-out;
+    transition:transform 0.5s ease-out;
+}
+
+.producto:hover {
+    -moz-transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    -o-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05)
+}
+
+.producto img {
+    width: 30vh;
+    height: 30vh;
+    margin: 2.5px;
+    border-radius: 15px;
+}
+
+.producto a {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    border-radius: 0px;
+    box-shadow: 0px 0px 1000px rgb(209 208 204);
+}
+
+.producto div p {
+    font-size: 15px;
+    text-align: center;
+    margin: 20% 0;
+    font-weight: bold;
+    color:#0e141a;
+}
+
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.paginationButtons {
+    display: flex;
+    align-items: center;
+}
+
+.paginationButtons a, .paginationButtons span {
+    padding: 5px 10px;
+    margin: 5px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.paginationButtons a:hover {
+    background-color: #e0e0e0;
+}
+
+/* Estilo para el botón "Anterior" y "Siguiente" */
+.paginationButtons a:first-child,
+.paginationButtons a:last-child {
+    background-color: #0e141a;
+    color: #fff;
+    font-weight: bold;
+}
+
+.paginationButtons a:first-child:hover,
+.paginationButtons a:last-child:hover {
+    background-color: #0e141a;
+}
+
+
+/* mediasquerys */
+
+@media (min-width: 768px) {
+    .producto img {
+        width: 35vh;
+        height: 45vh;
+        margin: 10px;
+    }
+    
+    .producto div p {
+        font-size: 18px;
+    }
+}

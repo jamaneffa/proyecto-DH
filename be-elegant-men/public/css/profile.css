@@ -1,0 +1,194 @@
+.mainProfile {
+    padding: 2.5%;
+    background-image: url(../img/backgrounds/background.jpg);
+}
+
+.cuerpoProfile {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2.5%;
+    border-radius: 15px;
+    margin: auto;
+    width: 50%;
+    background-color: #0e141a;
+    box-shadow: 0px 0px 10px rgb(209, 208, 204);
+}
+
+.contenedorAvatar {
+    width: 25%;
+}
+
+.avatarImg {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.profileAvatarUpload>input {
+    display: none;
+}
+
+.profileAvatarUpload {
+    margin-bottom: 10%;
+}
+
+.profileAvatarUpload i {
+    color: #adb1b5;
+/*     position: relative;
+    left: 6rem;
+    top: -1.5rem; */
+    border-radius: 100%;
+    transition: all 1s ease;
+}
+
+.profileAvatarUpload i:hover {
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.profileAvatarUpload i:active {
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.hidden {
+    display: none;
+}
+
+.avatarButton {
+    display: block;
+    margin-top: 2%;
+    width: 8rem;
+    margin: auto;
+    padding: .5rem;
+    text-align: center;
+    background-color: #0e141a;
+    color:#adb1b5;
+    font-size: 1rem;
+    border: 2px solid;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all 1s ease;
+}
+
+.avatarButton:hover {
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.avatarButton:active {
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.sectionDatos {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 3%;
+}
+
+.sectionDatos div {
+    margin-bottom: 1%;
+    margin-top: 2%;
+}
+
+.sectionDatos input {
+    width: 95%;
+    height: 1.5rem;
+    margin-bottom: 1%;
+}
+
+
+.cuerpoProfile fieldset {
+    margin-bottom: 1%;
+    color:#adb1b5;
+}
+
+/* asdasdasdasdd */
+
+.sectionDatos button {
+    margin-top: 2%;
+    width: 8rem;
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    text-align: center;
+    background-color: #0e141a;
+    color:#adb1b5;
+    font-size: 1rem;
+    border: 2px solid;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all 1s ease;
+}
+
+.sectionDatos button:hover {
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.sectionDatos button:active {
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.sectionDatos select{
+    height: 25px;
+    width: 95%;
+    margin-bottom: 1%;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.createButton, .dashboardButton {
+    margin-top: 2%;
+    width: 8rem;
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    text-align: center;
+    background-color: #0e141a;
+    color:#adb1b5;
+    font-size: 1rem;
+    border: 2px solid;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all 1s ease;
+}
+
+.createButton:hover , .dashboardButton:hover{
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.createButton:active, .dashboardButton:active{
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+
+/* mediasquerys */
+
+@media (max-width: 479px) {
+
+}
+      
+@media (min-width: 480px) and (max-width: 799px) {
+
+}
+    
+@media (min-width: 800px) and (max-width: 1023px) {
+
+}
+    
+@media (min-width: 1024px) {
+
+}

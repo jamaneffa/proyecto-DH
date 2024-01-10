@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <%- include('../partials/head.ejs') %>
+        <script src='/scripts/cart/cart.js'></script>
+        <script src='/scripts/confirmations/confirmDeleteProduct.js'></script>
+        <script src='/scripts/favorites/favorite.js'></script>
+        <script src='/scripts/products/stock.js'></script>
+    </head>
+    <body>
+        <%- include('../partials/header.ejs') %>
+        <%- include('../partials/navBrands.ejs') %>
+        <main class="mainProductDetail">
+            <input type="hidden" name="productSku" id="productSku" value="<%= product.sku %>">
+            <section class="sectionPrincipal">
+                <article class="articleImagenPrincipal">
+                    <img src="https://res.cloudinary.com/dmqvbjyyi/image/upload/v1696350997/products/<%= product.image %>" alt="<%= product.image %>">
+                </article>
+                <article class="articleOpcionesProducto">
+                    <div class="cabeceraProducto">
+                        <div class="divProductoMarca">
+                            <h2 id="productName"><%= product.name %></h2>
+                            <p><%= product.brands.name %></p>   
+                        </div>   
+                        <% if (locals.isLogged) { %>
+                            <div class="divContenedorFavoritos">
+                                <i id="favoriteButton" class="fa-regular fa-heart"></i>
+                            </div>  
+                        <% } %>
+                    </div> 
+                    <div class="divPrecioDescuento">
+                        <h2 id="productPrice">$ <%= product.price %></h2>
+                        <% if (product.discount > 0) { %>
+                            <p><%= product.discount %>% OFF</p>
+                        <% } %>
+                    </div>
+                    <div class="divEnvio">
+                        <p><i class="fa-solid fa-truck-fast"></i> Envios a todo el pais</p>
+                    </div>
+                    <div class="divTalleStock">
+                        <label for="size">Talle</label>
+                        <select name="size" id="size">
+                            <option value="null" selected disabled></option>
+                            <% for (const size of sizes) { %>
+                                <option value="<%= size.id %>"><%= size.size_name %></option>
+                            <% } %>
+                        </select>
+                        <label id="stockLabel" for="stock">Selecciona un talle</label>
+                        <select name="stock" id="stock">
+                                <!-- Opciones de stock se llenarán dinámicamente con JavaScript -->
+                        </select>
+                    <div>
+                        <button type="submit" id="addToCartButton" <% if (!locals.isLogged) { %>disabled<% } %>>
+                            Agregar al carrito    <i class="fa-solid fa-cart-shopping"></i>
+                        </button>
+                    </div>
+                    <div class="divDetalleProducto">
+                        <h2>Detalles del producto</h2>
+                        <p><%= product.description %></p>
+                    </div>
+                    <!-- si el usuario esta logueado traigo al front su id para asociarlo al producto que guardo en localStorage -->
+                    <% if (locals.isLogged) {%> 
+                        <input type="hidden" name="userId" id="userId" value="<%= locals.userLogged.id%>">
+                    <% } %>
+                    <!-- -->
+                    <% if (locals.isLogged && locals.userLogged.admin === 1) { %>
+                        <div class="botonera">
+                            <form action="<%= product.sku %>/edit" method="get">
+                                <button type="submit">Editar</button>
+                            </form>
+                            <form id="formDeleteProduct" action="<%= product.sku %>?_method=DELETE" method="post"> <!-- hacer confirmación -->
+                                <input type="hidden" name="sku" value="<%= product.sku %>">
+                                <button type="submit">Borrar</button>
+                            </form>
+                        </div> 
+                    <% } %>    
+                </article>
+            </section>
+            <section class="sectionProdRelacionados">
+                <h2>Productos relacionados</h2>
+                <picture>
+                    <% for( const categoryProduct of categoryProducts) { %>
+                        <a href="/products/<%= categoryProduct.sku %>">
+                            <img src="https://res.cloudinary.com/dmqvbjyyi/image/upload/v1696350997/products/<%= categoryProduct.image %>" alt="Producto relacionado">
+                            <p><%= categoryProduct.name %></p>
+                        </a>
+                    <% } %>
+                </picture>
+            </section>
+        </main>
+        <%- include('../partials/navBrands.ejs') %>
+        <%- include('../partials/footer.ejs') %>
+    </body>
+</html>

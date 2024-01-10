@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <%- include('../partials/head.ejs') %>
+    </head>
+    <body>
+      <%- include('../partials/header.ejs') %>
+      <main>
+        <%- include('../partials/navBrands.ejs') %>
+        <section class="containerIndex">
+          <div class="banner">
+            <img  class ='img-banner'src="img/banners/banner.png">
+          </div>
+          <article class="categoria">
+            <a href="/products/list/1">
+              <img src="https://res.cloudinary.com/dmqvbjyyi/image/upload/v1697049657/categories/ambos_patoat.jpg" alt="ambo"/>
+              <p class="descripcion">Ambos</p>
+            </a>
+          </article>
+          <article class="categoria">
+            <a href="/products/list/2">
+              <img src="https://res.cloudinary.com/dmqvbjyyi/image/upload/v1697049656/categories/camisas_zrak7f.jpg" alt="camisa"/>
+              <p>Camisas</p>
+            </a>
+          </article>
+          <article class="categoria">
+            <a href="/products/list/3">
+              <img src="https://res.cloudinary.com/dmqvbjyyi/image/upload/v1697049656/categories/corbatas_vwtf2m.jpg" alt="corbata" />
+              <p>Corbatas</p>
+            </a>
+          </article>
+          <article class="categoria">
+            <a href="/products/list/4">
+              <img src="https://res.cloudinary.com/dmqvbjyyi/image/upload/v1697049656/categories/pantalones_w5dkyf.jpg" alt="pantalon_vestir"/>
+              <p>Pantalones</p>
+            </a>
+          </article>
+          <article class="categoria">
+            <a href="/products/list/5">
+              <img src="https://res.cloudinary.com/dmqvbjyyi/image/upload/v1697049656/categories/sacos_lgbsri.jpg" alt="saco" />
+              <p>Sacos</p>
+            </a>
+          </article>
+          <article class="categoria">
+            <a href="/products/list/6">
+              <img src="https://res.cloudinary.com/dmqvbjyyi/image/upload/v1697049656/categories/zapatos_qct4p9.jpg" alt="zapatos" />
+              <p>Zapatos</p>
+            </a>
+          </article>
+        </section>
+        <%- include('../partials/navBrands.ejs') %>
+      </main> 
+      <%- include('../partials/footer.ejs') %>
+    </body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <%- include('../partials/head.ejs') %>
+        <script src='/scripts/cart/showCart.js'></script>
+    </head>
+    <body>
+        <%- include('../partials/header.ejs') %>
+        <%- include('../partials/navBrands.ejs') %>
+        <main class="mainCart">
+	        <section class="cuerpoCart">     
+                <input type="hidden" name="userId" id="userId" value="<%= locals.userLogged.id %>">  
+            </section>
+        </main>
+        <%- include('../partials/navBrands.ejs') %>
+        <%- include('../partials/footer.ejs') %>
+    </body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <%- include('../partials/head.ejs') %>
+        <script src='/scripts/confirmations/confirmEditProduct.js'></script>
+        <script src='/scripts/validations/editProductValidator.js'></script>
+    </head>
+    <body>
+        <%- include('../partials/header.ejs') %>
+        <%- include('../partials/navBrands.ejs') %>
+        <main class="mainEditProduct">
+            <section class="cuerpoEditProduct">
+                <h1>Editar Producto</h1>
+                <form class="formularioEditProduct" action="/products/<%= product.sku %>?_method=PUT" method="POST" enctype="multipart/form-data"> 
+                    <input type="hidden" name="sku" value="<%= product.sku%>">
+                    <section>
+                        <input type="text" id="name" name="name" placeholder="Nombre del producto" value="<%= locals.old ? old.name : product.name %>">
+                    </section>
+                    <span class="nameSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.name) { %>
+                        <div class="divError">
+                            <%= errors.name.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <input type="text" id="description" name="description" placeholder="Descripción del producto" value="<%= locals.old ? old.description : product.description %>"></input>
+                    </section>
+                    <span class="descriptionSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.description) { %>
+                        <div class="divError">
+                            <%= errors.description.msg %>
+                        </div>
+                    <% } %>
+                    <fieldset class="sizeFieldset">
+                        <legend>Talles Disponibles</legend>
+                        <% if (locals.old && locals.old.size) { %>
+                            <% for( const size of sizes) { %>
+                                <% if (locals.old.size.includes(size.id.toString())) { %>
+                                    <div>
+                                        <label for="sizeId_<%=size.id%>"><%= size.size_name %></label>
+                                        <input id="sizeId_<%=size.id%>" name="size" type="checkbox" value="<%=size.id %>" checked>
+                                        <label for="stockForSizeId_<%=size.id %>">Stock</label>
+                                        <input type="number" id="stockForSizeId_<%=size.id %>" name="stockForSizeId_<%=size.id %>">                      
+                                    </div>
+                                <% } else { %>
+                                    <div>
+                                        <label for="sizeId_<%=size.id%>"><%= size.size_name %></label>
+                                        <input id="sizeId_<%=size.id%>" name="size" type="checkbox" value="<%=size.id %>"> 
+                                        <label for="stockForSizeId_<%=size.id %>">Stock</label>
+                                        <input type="number" id="stockForSizeId_<%=size.id %>" name="stockForSizeId_<%=size.id %>">                      
+                                    </div>    
+                                <% } %>
+                            <% } %>
+                        <% } else { %>
+                            <% for( const size of sizes) { %>
+                                <div>
+                                    <label for="sizeId_<%=size.id%>"><%= size.size_name %></label>
+                                    <input id="sizeId_<%=size.id%>" name="size" type="checkbox" value="<%=size.id %>"> 
+                                    <label for="stockForSizeId_<%=size.id %>">Stock</label>
+                                    <input type="number" id="stockForSizeId_<%=size.id %>" name="stockForSizeId_<%=size.id %>">
+                                </div>
+                                <% } %>
+                        <% } %>
+                    </fieldset>
+                    <span class="sizeSpan">Seleccione al menos un talle y asignale un stock</span>
+                    <% if (locals.errors && errors.size) { %>
+                        <div class="divError">
+                            <%= errors.size.msg %>
+                        </div>
+                    <% } %>
+                    <section> 
+                        <input type="number" id="price" name="price" min="0" placeholder="Precio del producto" value="<%= locals.old ? old.price : product.price %>">
+                    </section>
+                    <span class="priceSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.price) { %>
+                        <div class="divError">
+                            <%= errors.price.msg %>
+                        </div>
+                    <% } %>
+                    <section> 
+                        <input type="number" id="discount" name="discount" min="0" placeholder="Descuento del producto" value="<%= locals.old ? old.discount : product.discount %>">
+                    </section>
+                    <span class="discountSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.discount) { %>
+                        <div class="divError">
+                            <%= errors.discount.msg %>
+                        </div>
+                    <% } %>            
+                    <section>
+                        <select name="brand" id="brand">
+                            <% if (locals.old && locals.old.brand) { %>
+                                <option value="default" disabled >Seleccione una marca... </option>  
+                                <% for( const brand of brands) { %>
+                                    <% if (locals.old.brand == brand.id) { %>
+                                        <option value="<%= brand.id %>" selected> <%= brand.name %> </option>
+                                    <% } else { %>
+                                        <option value="<%= brand.id %>"> <%= brand.name %> </option>                        
+                                    <% } %>
+                                <% } %>
+                            <% } else { %>
+                                <option value="default" disabled selected>Seleccione una marca... </option>  
+                                <% for( const brand of brands) { %>
+                                    <option value="<%= brand.id %>"> <%= brand.name %> </option>                        
+                                <% } %>
+                            <% } %>
+                        </select>
+                    </section>
+                    <span  class="brandSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.brand) { %>
+                        <div class="divError">
+                            <%= errors.brand.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <select name="category" id="category">
+                            <% if (locals.old && locals.old.category) { %>
+                                <option value="default" disabled >Seleccione una categoria... </option>  
+                                <% for( const category of categories) { %>
+                                    <% if (locals.old.category == category.id) { %>
+                                        <option value="<%= category.id %>" selected> <%= category.name %> </option>
+                                    <% } else { %>
+                                        <option value="<%= category.id %>"> <%= category.name %> </option>                        
+                                    <% } %>
+                                <% } %>
+                            <% } else { %>
+                                <option value="default" disabled selected>Seleccione una categoria... </option>  
+                                <% for( const category of categories) { %>
+                                    <option value="<%= category.id %>"> <%= category.name %> </option>                        
+                                <% } %>
+                            <% } %>
+                        </select>
+                    </section>
+                    <span class="categorySpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.category) { %>
+                        <div class="divError">
+                            <%= errors.category.msg %>
+                        </div>
+                    <% } %>  
+                    <div class="createProductFotosUpload">
+                        <p>Foto del Producto</p>
+                        <label for="image">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </label>
+                        <input type="file" id="image" name="image"/>
+                    </div>
+                    <% if (locals.errors && errors.image) { %>
+                        <div class="divError">
+                            <%= errors.image.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <button type="submit" value="editar">Editar Producto</button>
+                        <button type="reset">Reiniciar Formulario</button>
+                    </section>
+                </form>
+            </section>
+        </main>
+        <%- include('../partials/navBrands.ejs') %>
+        <%- include('../partials/footer.ejs') %>
+    </body>
+</html>

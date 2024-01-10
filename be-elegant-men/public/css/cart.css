@@ -1,0 +1,78 @@
+.mainCart {
+    padding: 2.5%;
+    background-image: url(../img/backgrounds/background.jpg);
+}
+
+.cuerpoCart {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2.5%;
+    border-radius: 15px;
+    margin: auto;
+    width: 40%;
+    background-color: #0e141a;
+    box-shadow: 0px 0px 10px rgb(209, 208, 204);
+}
+
+.cuerpoCart p{
+    color: rgb(209, 208, 204);
+    margin: auto;
+}
+
+.cuerpoCart form {
+    width: 90%;
+    margin-left: 5%;
+}
+
+.cuerpoCart fieldset {
+    margin-bottom: 5%;
+    margin-top: 2%;
+    color:#adb1b5;
+}
+
+.cuerpoCart label {
+    color:#adb1b5;
+}
+
+.cuerpoCart input {
+    width: 95%;
+    height: 1.5rem;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+
+.cuerpoCart fieldset button {
+    width: 35%;
+    margin-left: 32.5%;
+    margin-top: 3%;
+    color:#adb1b5;
+}
+
+.cuerpoCart button {
+    width: 35%;
+    margin-left: 32.5%;
+    margin-top: 3%;
+    text-align: center;
+    background-color: #0e141a;
+    color:#adb1b5;
+    font-size: 1rem;
+    padding: 1%;
+    border: 2px solid;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all 1s ease;
+}
+
+.cuerpoCart button:hover {
+    box-shadow: .10rem .10rem 1rem #adb1b5,
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.cuerpoCart button:active {
+    box-shadow: inset .10rem .10rem 1rem #adb1b5,
+    inset -.10rem -.10rem 1rem #ccc;
+}

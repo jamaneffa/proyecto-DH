@@ -1,0 +1,101 @@
+.mainContact {
+    padding: 4%;
+    background-image: url(../img/backgrounds/background.jpg);
+}
+
+.cuerpoContact {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+    border-radius: 15px;
+    margin: auto;
+    background-color: #0e141a;
+    box-shadow: 0px 0px 10px rgb(209, 208, 204);
+}
+
+.cuerpoContact h1{
+    color:#adb1b5;
+}
+
+.formularioContact {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+    padding: 2%;
+}
+
+.formularioContact div {
+    width: 100%;
+    margin-top: 2%;
+    margin-bottom: 3%;
+}
+
+.formularioContact label {
+    margin-right: 2%;
+    color:#adb1b5;
+}
+
+.formularioContact section {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 2%;
+}
+
+.formularioContact section input {
+    width: 100%;
+    height: 30px;
+}
+
+#detail {
+    width: 100%;
+    height: 50px;
+}
+
+.formularioContact button {
+    width: 45%;
+    text-align: center;
+    background-color: #0e141a;
+    color:#adb1b5;
+    font-size: 1rem;
+    padding: 1%;
+    margin-top: 1em;
+    border: 2px solid #adb1b5;;
+    border-radius: .5rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.formularioContact button:hover {
+    box-shadow: .10rem .10rem 1rem #adb1b5,
+    -.10rem -.10rem 1rem #ccc;
+    
+}
+
+.formularioContact button:active {
+    box-shadow: inset .10rem .10rem 1rem #adb1b5,
+    inset -.10rem -.10rem 1rem #ccc;
+}
+
+/* mediasquerys */
+
+@media (min-width: 480px) {
+    .cuerpoContact {
+        width: 75%;
+    }
+}
+
+@media (min-width: 768) {
+    .cuerpoContact {
+        width: 40%;
+    }
+}

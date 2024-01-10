@@ -1,0 +1,248 @@
+.mainProductDetail {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    padding: 5%;
+    background-image: url(../img/backgrounds/background.jpg);
+}
+
+.mainProductDetail h2 {
+    color: 13202F
+}
+
+.sectionPrincipal {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 80%;
+    margin: auto;
+}
+
+.articleImagenPrincipal {
+    border-radius: 15px;
+    color: #adb1b5;
+    box-shadow: 0px 0px 10px rgb(209 208 204);
+    padding: 8px;
+}
+
+.articleImagenPrincipal img {
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+    border-radius: 15px;
+}
+
+.articleOpcionesProducto {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: space-around;
+    width: 40%;
+    color: 13202F;
+    padding: 3%;
+    height: 40rem;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px rgb(209 208 204);
+}
+
+.cabeceraProducto {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.divContenedorFavoritos i {
+    margin-top: 5px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.divProductoMarca h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.divProductoMarca p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.divPrecioDescuento {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.divTalleStock {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.divTalleStock label {
+    margin-right: 5px;
+}
+
+#stockLabel {
+    margin-left: 10px;
+}
+
+.divPrecioDescuento p{
+    margin-left: 4%;
+    color: 13202F;
+}
+
+.divEnvio p {
+    color: 13202F;
+}
+
+#size {
+    width: 50px;
+    text-align: center;
+}
+
+#addToCartButton {
+    margin-top: 5%;
+}
+
+/* .formCarrito div {
+    margin-top: 3%;
+}
+.formCarrito label {
+    color: 13202F;
+}
+
+.formCarrito button {
+    width: 12rem;
+    margin-top: 1rem;
+    padding: .5rem;
+    text-align: center;
+    background-color: #adb1b5;
+    color: 13202F;
+    font-size: 1rem;
+    border: 2px solid;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all 1s ease;
+}
+
+.formCarrito button:hover {
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.formCarrito button:active {
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+} */
+
+.botonera {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+
+}
+
+.botonera button {
+    width: 7rem;
+    text-align: center;
+    background-color: #adb1b5;
+    color:13202F;
+    font-size: 1rem;
+    padding: .5rem;
+    border: 2px solid;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all 1s ease;
+}
+
+.botonera button:hover {
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.botonera button:active {
+    box-shadow: .10rem .10rem 1rem #fff, 
+    -.10rem -.10rem 1rem #ccc;
+}
+
+.sectionProdRelacionados {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 80%;
+    margin: auto;
+}
+
+.sectionProdRelacionados h2 {
+    width: 100%;
+    margin-top: 5%;
+    text-align: center;
+    margin-bottom: 5%;
+    color:#0e141a;
+}
+
+.sectionProdRelacionados picture {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.sectionProdRelacionados a{
+    width: 14%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+    background-color: #0e141a;
+    box-shadow: 0px 0px 10px rgb(209, 208, 204);
+    border-radius: 15px;
+    height: 14rem;
+}
+
+.sectionProdRelacionados img{
+    width: 100%;
+    border-radius: 15px;
+    height: 10rem;
+}
+
+.sectionProdRelacionados p{
+    text-align: center;
+    margin-top: 12%;
+    color:#adb1b5;
+}
+
+/* mediasquerys */
+
+@media (max-width: 479px) {
+
+}
+      
+@media (min-width: 480px) and (max-width: 799px) {
+
+}
+    
+@media (min-width: 800px) and (max-width: 1023px) {
+
+}
+    
+@media (min-width: 1024px) {
+
+}

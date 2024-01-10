@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <%- include('../partials/head.ejs') %>
+        <script src='/scripts/validations/profileValidator.js'></script>
+        <script src='/scripts/users/changeAvatar.js'></script>
+        <script src='/scripts/confirmations/confirmDeleteUser.js'></script>
+        <script src='/scripts/users/selectCountries.js'></script>
+    </head>
+    <body>
+        <%- include('../partials/header.ejs') %>
+        <%- include('../partials/navBrands.ejs') %>
+        <main class="mainProfile">
+	        <section class="cuerpoProfile">
+                <form class="contenedorAvatar" action="/users/updateAvatar/<%= user.id %>?_method=PATCH" method="POST" enctype="multipart/form-data">
+                    <img class="avatarImg" id="avatarImgID" src="https://res.cloudinary.com/dmqvbjyyi/image/upload/v1696350997/users/<%= user.avatar %>" alt="Imagen de Usuario">
+                    <div class="profileAvatarUpload">
+                        <label for="avatar">
+                            <i class="fa-solid fa-pen"></i>
+                        </label>
+                        <input type="file" id="avatar" name="avatar"/>
+                    </div>
+                    <% if (locals.errors && errors.avatar) { %> 
+                        <div class="divError">
+                            <%= errors.avatar.msg %>
+                        </div>
+                    <% } %>
+                    <div>
+                        <button class="hidden" id="idButton" type="submit">Cambiar</button>
+                    </div>
+                </form>
+                <section class="sectionDatos">
+                    <form action="/users/updateNames/<%= user.id %>?_method=PATCH" method="POST">
+                        <fieldset>
+                            <legend>Información Personal</legend>
+                            <div>
+                                <input class="firstNameProfileInput"type="text" placeholder="Nombre" name="first_name" value="<%= user.first_name %>">
+                            </div>
+                            <% if (locals.errors && errors.first_name) { %>
+                                <div class="divError">
+                                    <%= errors.first_name.msg %>
+                                </div>
+                            <% } %>
+                            <span class="firstNameProfileSpan">El campo no puede quedar vacio</span>
+                            <div>
+                                <input class="lastNameProfileInput"type="text" placeholder="Apellido" name="last_name"value="<%= user.last_name %>">
+                            </div>
+                            <% if (locals.errors && errors.last_name) { %>
+                                <div class="divError">
+                                    <%= errors.last_name.msg %>
+                                </div>
+                            <% } %>
+                            <span class="lastNameProfileSpan">El campo no puede quedar vacio</span>
+                            <div>
+                                <input class="dniProfileInput"type="text" placeholder="Dni" name="dni"value="<%= user.dni %>">
+                            </div>
+                            <% if (locals.errors && errors.dni) { %>
+                                <div class="divError">
+                                    <%= errors.dni.msg %>
+                                </div>
+                            <% } %>
+                            <span class="dniProfileSpan">El campo no puede quedar vacio</span>
+                            <button class="nameButton" type="submit">Editar</button>
+                        </fieldset>
+                    </form>
+
+                    <form action="/users/updateAddress/<%= user.addresses.id %>?_method=PUT" method="POST">
+                        <fieldset>
+                            <legend>Direccion</legend>
+                            <div>
+                                <select class="countryProfileInput" id="country" name="country" >
+                                    <option value="default" disabled>Selecciona un país...</option>
+                                    <option value="<%= user.addresses.country %>" selected><%= user.addresses.country %></option>
+                                </select>
+                            </div>   
+                            <span class="countryProfileSpan">El campo no puede quedar vacio</span>
+                            <% if (locals.errors && errors.country) { %>
+                                <div class="divError">
+                                    <%= errors.country.msg %>
+                                </div>
+                            <% } %>
+                            <div>
+                                <input class="stateProfileInput"type="text" name="state" value="<%= user.addresses.state %>">
+                            </div>
+                            <% if (locals.errors && errors.state) { %>
+                                <div class="divError">
+                                    <%= errors.state.msg %>
+                                </div>
+                            <% } %>
+                            <span class="stateProfileSpan">El campo no puede quedar vacio</span>
+                            <div>
+                                <input class="cityProfileInput"type="text" name="city"value="<%= user.addresses.city %>">
+                            </div>
+                            <% if (locals.errors && errors.city) { %>
+                                <div class="divError">
+                                    <%= errors.city.msg %>
+                                </div>
+                            <% } %>
+                            <span class="cityProfileSpan">El campo no puede quedar vacio</span>
+                            <div>
+                                <input class="cpProfileInput"type="text" name="cp"value="<%= user.addresses.cp %>">
+                            </div>
+                            <% if (locals.errors && errors.cp) { %>
+                                <div class="divError">
+                                    <%= errors.cp.msg %>
+                                </div>
+                            <% } %>
+                            <span class="cpProfileSpan">El campo no puede quedar vacio</span>
+                            <div>
+                                <input class="streetProfileInput"type="text" name="street"value="<%= user.addresses.street %>">
+                            </div>
+                            <% if (locals.errors && errors.street) { %>
+                                <div class="divError">
+                                    <%= errors.street.msg %>
+                                </div>
+                            <% } %>
+                            <span class="streetProfileSpan">El campo no puede quedar vacio</span>
+
+                            <div>
+                                <input class="streetNumberProfileInput"type="text" name="street_number"value="<%= user.addresses.street_number %>">
+                            </div>
+                            <% if (locals.errors && errors.street_number) { %>
+                                <div class="divError">
+                                    <%= errors.street_number.msg %>
+                                </div>
+                            <% } %>
+                            <span class="streetNumberProfileSpan">El campo no puede quedar vacio</span>
+
+                            <button class="addressButton" type="submit">Editar</button>
+                        </fieldset>
+                    </form>
+
+                    <form action="/users/updatePass/<%= user.id %>?_method=PATCH" method="POST">
+                        <fieldset>
+                            <legend>Correo Electrónico</legend>
+                            <div>
+                                <input type="email" name="email" value="<%= user.email %>" readonly>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Modificar Contraseña</legend>
+                            <div>
+                                <input class="actualPassProfileInput"type="password" placeholder="Contraseña Actual" name="actualPass">
+                            </div>
+                            <% if (locals.errors && errors.actualPass) { %>
+                                <div class="divError">
+                                    <%= errors.actualPass.msg %>
+                                </div>
+                            <% } %>
+                            <span class="actualPassProfileSpan">El campo no puede quedar vacio</span>
+                            <div>
+                                <input class="newPassProfileInput"type="password" placeholder="Nueva Contraseña" name="newPass">
+                            </div>
+                            <% if (locals.errors && errors.newPass) { %>
+                                <div class="divError">
+                                    <%= errors.newPass.msg %>
+                                </div>
+                            <% } %>
+                            <span class="newPassProfileSpan">El campo no puede quedar vacio</span>
+                            <div>
+                                <input class="checkNewPassProfileInput"type="password" placeholder="Repita su Contraseña" name="checkNewPass">
+                            </div>
+                            <% if (locals.errors && errors.checkNewPass) { %>
+                                <div class="divError">
+                                    <%= errors.checkNewPass.msg %>
+                                </div>
+                            <% } %>
+                            <span class="checkNewPassProfileSpan">El campo no puede quedar vacio</span>
+                            <button class="passButton" type="submit">Editar</button>
+                        </fieldset>
+                    </form>
+                    <div class="buttons">
+                        <form action="/users/logout" method="GET">
+                            <button class="sessionButton"type="submit">Cerrar sesión</button>
+                        </form>
+                        <form id="formDeleteUser" action="/users/destroyUser/<%= user.id %>?_method=DELETE" method="POST">
+                            <input type="hidden" name="id" value="<%= user.id %>">
+                            <button class="eraseButton" type="submit">Borrar Usuario</button>
+                        </form>
+                    </div>
+                </section>
+                <% if (locals.userLogged.admin === 1) { %>
+                    <section>
+                        <form action="/products/create" method="GET">
+                            <button class="createButton"type="submit">Crear Producto</button>
+                        </form>                     
+                        <form action="/dashboard" method="GET" target="_blank">
+                            <button class="dashboardButton"type="submit">Dashboard</button>
+                        </form>
+                    </section>
+                <% } %>  
+            </section>
+        </main>
+        <%- include('../partials/navBrands.ejs') %>
+        <%- include('../partials/footer.ejs') %>
+    </body>
+</html>
+
+

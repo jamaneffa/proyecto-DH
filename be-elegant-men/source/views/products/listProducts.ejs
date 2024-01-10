@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <%- include('../partials/head.ejs') %>
+    </head>
+    <body>
+        <%- include('../partials/header.ejs') %>
+        <main>
+            <%- include('../partials/navBrands.ejs') %>
+            <% if (products.length > 0) { %>
+            <section class="containerListProduct">
+                <% products.forEach(product => { %> 
+                <article class="producto">
+                    <a href="/products/<%= product.sku %>">
+                        <img src="https://res.cloudinary.com/dmqvbjyyi/image/upload/v1696350997/products/<%= product.image %>" alt="<%= product.image %>">
+                        <div>
+                            <p><%= product.name %></p>
+                            <p>$ <%= product.price %></p>
+                        </div>
+                    </a>
+                </article>
+                <% }) %> 
+            </section>
+        <% } %>
+        <div class="paginationContainer">
+            <div class="paginationButtons">
+                <% if (currentPage > 1) { %>
+                    <a href="?page=<%= currentPage - 1 %>">Anterior</a>
+                <% } %>
+            
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <% if (i === currentPage) { %>
+                        <span><%= i %></span>
+                    <% } else { %>
+                        <a href="?page=<%= i %>"><%= i %></a>
+                    <% } %>
+                <% } %>
+            
+                <% if (currentPage < totalPages) { %>
+                    <a href="?page=<%= currentPage + 1 %>">Siguiente</a>
+                <% } %>
+            </div>
+        </div>
+        <%- include('../partials/navBrands.ejs') %>
+        </main>
+        <%- include('../partials/footer.ejs') %>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<header>
+    <section class="sectionHeaderSuperior">
+        <a class="contenedorImg" href="/"><img class="imgLogo" src="\img\logos\logoHeader.png" alt="logo"></a>
+        <h2><a href="/">Be Elegant Men</a></h2>
+        <div class="divBusqueda">
+            <form action="/products/search" method="get">
+                <input type="search" placeholder=" Buscar productos..." name="search" id="search" list="suggestions" autocomplete="off">
+                <datalist id="suggestions"></datalist>
+                <button>
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <nav class="navBarUser">
+            <a href="/users/login">
+                <% if (locals.isLogged) { %>
+                    <p>Hola <%= locals.userLogged.first_name %></p>
+                <% } else {%>
+                    <i class="fa-solid fa-user"></i>
+                <% } %>
+            </a>
+            <a href="/users/cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+            <a href="/users/favorites">
+                <i class="fa-solid fa-heart"></i>
+            </a>            
+            <a href="/users/logout">
+                <% if (locals.isLogged) { %>
+                    <i class="fa-solid fa-right-from-bracket"></i></a>
+                <% } %>     
+            </a>               
+        </nav>
+
+        <div class="hamburger">
+            <div class="_layer -top"></div>
+            <div class="_layer -mid"></div>
+            <div class="_layer -bottom"></div>
+        </div>
+        <nav class="menuppal">
+            <ul>
+                <li>
+                    <a href="/users/login">
+                        <% if (locals.isLogged) { %>
+                            <p><%= locals.userLogged.first_name %></p>
+                        <% } else {%>
+                            <i class="fa-solid fa-user"></i>
+                        <% } %>
+                    </a>
+                </li>
+                <li>
+                    <a href="/users/cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/users/favorites">
+                        <i class="fa-solid fa-heart"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/users/logout">
+                        <% if (locals.isLogged) { %>
+                            <i class="fa-solid fa-right-from-bracket"></i></a>
+                        <% } %>     
+                    </a>               
+                </li>
+            </ul>
+        </nav>
+    </section>
+    <nav class="navbarCategorias">
+        <a href="/products/list/">Todos</a>
+        <% let categories = ["Ambos", "Camisas", "Corbatas", "Pantalones", "Sacos", "Zapatos"] %> 
+        <% for( let i = 1; i <= categories.length; i++ ) { %>
+            <a href="/products/list/<%= i %>"> <%= categories[i - 1]%> </a>
+        <% } %>
+    </nav> 
+</header>

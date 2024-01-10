@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <%- include('../partials/head.ejs') %>
+        <script src='/scripts/validations/registerValidator.js'></script>
+        <script src='/scripts/users/selectCountries.js'></script>
+    </head>
+    <body>
+        <%- include('../partials/header.ejs') %>
+        <%- include('../partials/navBrands.ejs') %>
+        <main class="mainRegister">
+            <section class="cuerpoRegister">
+                <h1>Crea tu cuenta</h1>
+                <form class="formularioRegister" action="/users/register" method="post" enctype="multipart/form-data">
+                    <section>
+                        <input type="text" id="first_name" name="first_name" placeholder="Nombre/s" value="<%= locals.old ? old.first_name : '' %>">
+                    </section>
+                    <span class="firstNameSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.first_name) { %>
+                        <div class="divError">
+                            <%= errors.first_name.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <input type="text" id="last_name" name="last_name" placeholder="Apellido/s" value="<%= locals.old ? old.last_name : '' %>">
+                    </section>
+                    <span class="lastNameSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.last_name) { %>
+                        <div class="divError">
+                            <%= errors.last_name.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <input type="text" id="dni" name="dni" placeholder="DNI" value="<%= locals.old ? old.dni : '' %>">
+                    </section>
+                    <span class="dniSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.dni) { %>
+                        <div class="divError">
+                            <%= errors.dni.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <select id="country" name="country" >
+                            <% if (locals.old && locals.old.country) { %>
+                                <option value="<%= locals.old.country %>" selected><%= locals.old.country %></option>
+                            <% } else { %>
+                                <option value="default" disabled selected>Selecciona un país...</option>
+                            <% } %>
+                        </select>
+                    </section>   
+                    <span class="countrySpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.country) { %>
+                        <div class="divError">
+                            <%= errors.country.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <input type="text" id="state" name="state" placeholder="Provincia" value="<%= locals.old ? old.state : '' %>">
+                    </section>
+                    <span class="stateSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.state) { %>
+                        <div class="divError">
+                            <%= errors.state.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <input type="text" id="city" name="city" placeholder="Ciudad" value="<%= locals.old ? old.city : '' %>">
+                    </section>
+                    <span class="citySpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.city) { %>
+                        <div class="divError">
+                            <%= errors.city.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <input type="text" id="cp" name="cp" placeholder="Codigo Postal" value="<%= locals.old ? old.cp : '' %>">
+                    </section>
+                    <span class="cpSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.cp) { %>
+                        <div class="divError">
+                            <%= errors.cp.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <input type="text" id="street" name="street" placeholder="Calle" value="<%= locals.old ? old.street : '' %>">
+                    </section>
+                    <span class="streetSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.street) { %>
+                        <div class="divError">
+                            <%= errors.street.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <input type="text" id="street_number" name="street_number" placeholder="Numero" value="<%= locals.old ? old.street_number : '' %>">
+                    </section>
+                    <span class="streetNumberSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.street_number) { %>
+                        <div class="divError">
+                            <%= errors.street_number.msg %>
+                        </div>
+                    <% } %>        
+                    <section>
+                        <input type="email" id="email" name="email" placeholder="Correo Electrónico" value="<%= locals.old ? old.email : '' %>">
+                    </section>
+                    <span class="emailSpan">Debe ingresar un correo valido</span>
+                    <% if (locals.errors && errors.email) { %>
+                        <div class="divError">
+                            <%= errors.email.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <input type="password" id="password" name="password" placeholder="Contraseña">
+                    </section>
+                    <span class="passSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.password) { %>
+                        <div class="divError">
+                            <%= errors.password.msg %>
+                        </div>
+                    <% } %>
+                    <section>
+                        <input type="password" id="repassword" name="repassword" placeholder="Repita la contraseña">
+                    </section>
+                    <span class="rePassSpan">El campo no puede quedar vacio</span>
+                    <% if (locals.errors && errors.repassword) { %>
+                        <div class="divError">
+                            <%= errors.repassword.msg %>
+                        </div>
+                    <% } %>
+                    <div class="registerAvatarUpload">
+                        <h4>Foto de perfil</h4>
+                        <label for="avatar">
+                            <i class="fa-solid fa-upload"></i>
+                        </label>
+                        <input type="file" id="avatar" name="avatar"/>
+                    </div>
+                    <% if (locals.errors && errors.avatar) { %>
+                        <div class="divError">
+                            <%= errors.avatar.msg %>
+                        </div>
+                    <% } %>  
+                    <section>
+                        <button type="submit">Crear usuario</button>
+                    </section>
+                </form>
+            </section>
+        </main>
+        <%- include('../partials/navBrands.ejs') %>
+        <%- include('../partials/footer.ejs') %>
+        <script src="/scripts/countries.js"></script>
+    </body>
+</html>
