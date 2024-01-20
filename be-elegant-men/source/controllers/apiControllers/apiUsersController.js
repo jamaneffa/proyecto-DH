@@ -1,9 +1,8 @@
-const db = require('../../database/models/index');
+const userServices = require('../../services/userServices')
 
 const apiUsersController = {
     index: async (req, res) => {
-        db.User.findAll()
-        .then ( users => {
+        let users = await userServices.getAllUsers()
             return res.status(200).json({
                 count: users.length,
                 users: users.map(user => ({
@@ -11,26 +10,15 @@ const apiUsersController = {
                     name : user.first_name + ' ' + user.last_name,
                     detail : `http://localhost:3030/api/users/${user.id}`
                     //detail : `https://bem-cvku.onrender.com/api/users/${user.id}` url for deployed website
-            }))
+                }))
             })
-        })
     },
 
     detail: async (req, res) => {
         try {
-            const user = await db.User.findByPk(req.params.id, {
-                include: [
-                    {association: "addresses"},
-                    {association: "userOrders"}
-            ]})
+            const user = await userServices.getUserById(req.params.id)
 
-            const orders = await db.Order.findAll({
-                where: { user_id: req.params.id },
-                include: [
-                    { association: "users" },
-                    { association: "orderDetails" }
-                ]
-            })
+            const orders = await userServices.getOrdersByUser(user.id)
             
             let total = 0
             const total_orders = orders.length

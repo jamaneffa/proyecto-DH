@@ -1,5 +1,3 @@
-const db = require("../database/models");
-const { Op } = require("sequelize");
 const {validationResult} = require('express-validator');
 
 const cloudinary = require('cloudinary').v2;
@@ -11,6 +9,7 @@ cloudinary.config({
 	api_secret: process.env.api_secret 
 });
 
+const productServices = require('../services/productServices')
 
 const productsController = {
 
@@ -19,15 +18,11 @@ const productsController = {
             const page = parseInt(req.query.page) || 1; 
             const limit = 8; 
 
-            const { count, rows } = await db.Product.findAndCountAll({
-                where: {name: {[Op.like] : `%${req.query.search}%`}},
-                include: [
-                    {association: "categories"}, 
-                    {association:"brands"}
-                ],
-                limit,
-                offset: limit * (page - 1) 
-            })
+            const { count, rows } = await productServices.getAndCountAllProductsByQuery(
+                req.query.search, 
+                limit, 
+                page
+            )
 
             const totalPages = Math.ceil(count / limit)
 
@@ -43,28 +38,17 @@ const productsController = {
             const limit = 8; // Cantidad de productos por página
     
             if (req.params.category) {
-                const { count, rows } = await db.Product.findAndCountAll({
-                    where: { category_id: req.params.category },
-                    include: [
-                        { association: "categories" },
-                        { association: "brands" }
-                    ],
-                    limit,
-                    offset: limit * (page - 1) // Cálculo del desplazamiento
-                });
+                const { count, rows } = await productServices.getAndCountAllProductsByCategory(
+                    req.params.category, 
+                    limit, 
+                    page
+                )
     
                 const totalPages = Math.ceil(count / limit);
     
                 return res.render('./products/listProducts', { products: rows, totalPages, currentPage: page });
             } else {
-                const { count, rows } = await db.Product.findAndCountAll({
-                    include: [
-                        { association: "categories" },
-                        { association: "brands" }
-                    ],
-                    limit,
-                    offset: limit * (page - 1)
-                });
+                const { count, rows } = await productServices.getAndCountAllProducts(limit,page)
     
                 const totalPages = Math.ceil(count / limit);
     
@@ -77,23 +61,9 @@ const productsController = {
 
     detail: async (req, res) => {
         try {
-            let product = await db.Product.findByPk(
-                req.params.id, 
-                {include: [
-                    {association:"categories"}, 
-                    {association:"brands"}, 
-                    {association:"productDetails"}
-                ]}
-            );
-            let categoryProducts = await db.Product.findAll({
-                where: {category_id: product.category_id},
-                include: [
-                  { association: 'categories' },
-                  { association: 'brands' },
-                  { association: 'productDetails'}
-                ]
-            });
-            let sizes = await db.Size.findAll();
+            let product = await productServices.getProductByPk(req.params.id)
+            let categoryProducts = await productServices.getAllProductsByCategory(product.category_id)
+            let sizes = await productServices.getAllSizes()
             return res.render('./products/productDetail.ejs', {
                         product: product,
                         categoryProducts : categoryProducts,
@@ -109,13 +79,11 @@ const productsController = {
 
     create: async (req, res) => {
         try {
-            let products = await db.Product.findAll();
-            let categories = await db.Category.findAll();
-            let brands = await db.Brand.findAll();
-            let sizes = await db.Size.findAll()
+            let categories = await productServices.getAllCategories()
+            let brands = await productServices.getAllBrands()
+            let sizes = await productServices.getAllSizes()
 
             return res.render('./products/createProduct.ejs', {
-                products: products,
                 categories : categories,
                 brands : brands,
                 sizes : sizes
@@ -132,9 +100,9 @@ const productsController = {
 
         try {
             if (resultValidation.errors.length > 0) {
-                let categories = await db.Category.findAll();
-                let brands = await db.Brand.findAll();
-                let sizes = await db.Size.findAll();
+                let categories = await productServices.getAllCategories()
+                let brands = await productServices.getAllBrands()
+                let sizes = await productServices.getAllSizes()
                 return res.render('./products/createProduct.ejs', {
                     errors: resultValidation.mapped(),
                     old : req.body,
@@ -161,26 +129,14 @@ const productsController = {
                 })
                 const uploadedImage = await uploadPromise
 
-                const newProduct = await db.Product.create({
-                    name: req.body.name,
-                    description: req.body.description,
-                    price: req.body.price,
-                    discount: req.body.discount,
-                    image: customFileName,
-                    category_id: req.body.category,
-                    brand_id: req.body.brand
-                })
+                const newProduct = await productServices.createProduct(req.body, customFileName)
 
                 const availableSizes = req.body.size
 
                 for (const size of availableSizes) {
-                    await db.ProductDetail.create({
-                      product_sku : newProduct.sku,
-                      size_id: size,
-                      stock: req.body[`stockForSizeId_${size}`]
-                    })
+                    await productServices.createProductDetail(newProduct, size, req.body)
                 }
-                
+               
                 return res.redirect('/');
             }
         }
@@ -194,10 +150,10 @@ const productsController = {
     edit: async (req, res) => {
         
         try {
-            let product = await db.Product.findByPk(req.params.id, { include: [{association: "categories"}, {association:"brands"}] });
-            let categories = await db.Category.findAll();
-            let brands = await db.Brand.findAll();
-            let sizes = await db.Size.findAll();
+            let product = await productServices.getProductByPk(req.params.id)
+            let categories = await productServices.getAllCategories()
+            let brands = await productServices.getAllBrands()
+            let sizes = await productServices.getAllSizes()
 
             return res.render('./products/editProduct.ejs', {
                 product: product,
@@ -217,10 +173,10 @@ const productsController = {
             let customFileName 
             
             if (resultValidation.errors.length > 0) {
-                let product = await db.Product.findByPk(req.params.id);
-                let categories = await db.Category.findAll();
-                let brands = await db.Brand.findAll();
-                let sizes = await db.Size.findAll();
+                let product = await productServices.getProductByPk(req.params.id)
+                let categories = await productServices.getAllCategories()
+                let brands = await productServices.getAllBrands()
+                let sizes = await productServices.getAllSizes()    
 
                 return res.render('./products/editProduct.ejs', {
                     errors : resultValidation.mapped(),
@@ -255,18 +211,8 @@ const productsController = {
                         customFileName = req.body.prevImage
                     }
 
-                    await db.Product.update({
-                        name: req.body.name,
-                        description: req.body.description,
-                        price: req.body.price,
-                        discount: req.body.discount,
-                        image: customFileName,
-                        category_id: req.body.category,
-                        brand_id: req.body.brand
-                    }, {
-                        where : {sku: req.params.id}
-                    }
-                    )
+                    await productServices.updateProduct(req.body, customFileName, req.params.id)
+
                     return res.redirect('/products/' + req.params.id);
                 }
 
@@ -277,10 +223,10 @@ const productsController = {
 
     erase: async (req, res) => {
         try {
-            const product = await db.Product.findByPk(req.params.id);
+            const product = await productServices.getProductByPk(req.params.id)
 
-            await db.ProductDetail.destroy({ where: {product_sku: product.sku} })
-            await product.destroy()
+            await productServices.deleteProductDetail(product.sku)
+            await productServices.deleteProduct(product.sku)
 
             return res.redirect('/');
 

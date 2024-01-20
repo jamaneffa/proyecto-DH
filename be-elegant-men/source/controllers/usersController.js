@@ -11,6 +11,9 @@ cloudinary.config({
 	api_secret: process.env.api_secret 
 });
 
+const userServices = require('../services/userServices');
+const productServices = require('../services/productServices');
+
 const usersController = {
 
     //Login de usuarios
@@ -31,10 +34,7 @@ const usersController = {
                 });
             }
 
-            const userToLogin = await User.findOne({ where : {email : req.body.email} ,
-                include: [
-                    {association: "addresses"}
-                ]});
+            const userToLogin = await userServices.getUserByEmail(req.body.email)
             if (!userToLogin) {
                 return res.render('users/login', {
                     errors: {email: {msg: 'El email con el que intenta ingresar no existe'}}
@@ -80,16 +80,9 @@ const usersController = {
                 });
             }
 
-            const newAddress = await Address.create({
-                country: req.body.country,
-                state: req.body.state, 
-                city: req.body.city,
-                street: req.body.street,
-                street_number: req.body.street_number,
-                cp: req.body.cp
-            });
+            const newAddress = await userServices.createAddress(req.body)
 
-            const result = await User.findOne({ where: { email: req.body.email } });
+            const result = await userServices.getUserByEmail(req.body.email)
             if (!result) {
 
                 let imageBuffer = req.file.buffer
@@ -109,16 +102,8 @@ const usersController = {
                 })
                 const uploadedImage = await uploadPromise
 
-                await User.create({
-                    first_name: req.body.first_name,
-                    last_name: req.body.last_name,
-                    dni : req.body.dni,
-                    email: req.body.email,
-                    password: bcryptjs.hashSync(req.body.password, 10),
-                    avatar: customFileName,
-                    admin: req.body.email.includes('@beelegantmen.com') ? 1 : 0,
-                    address_id: newAddress.id 
-                });
+                await userServices.createUser(req.body, customFileName, newAddress.id )
+                
                 return res.render('users/login');
             } else {
                 return res.render('users/register', {
@@ -166,23 +151,10 @@ const usersController = {
                 })
             }
 
-            await User.update(
-                {
-                    first_name: req.body.first_name,
-                    last_name: req.body.last_name,
-                    dni : req.body.dni
-                },
-                {
-                    where: { id: req.params.id }
-                },
-                {
-                    include: [{ association: "addresses" }]
-                }
-            );
+            await userServices.updateUser(req.body, req.params.id)
 
-            const updatedUser = await User.findByPk(req.session.userLogged.id, {
-                include: [{ association: "addresses" }]
-            });
+            const updatedUser = await userServices.getUserById(req.session.userLogged.id)
+
             req.session.userLogged = updatedUser;
     
             res.redirect('/users/profile'); 
@@ -202,23 +174,10 @@ const usersController = {
                 })
             }
 
-            await Address.update(
-                {
-                    country: req.body.country,
-                    state: req.body.state,
-                    city: req.body.city,
-                    cp: req.body.cp,
-                    street: req.body.street,
-                    street_number: req.body.street_number
-                },
-                {
-                    where: { id: req.params.id }
-                }
-            );
+            await userServices.updateAddress(req.body, req.params.id)
             
-            const updatedUser = await User.findByPk(req.session.userLogged.id, {
-                include: [{ association: "addresses" }]
-            });
+            const updatedUser = await userServices.getUserById(req.session.userLogged.id)
+
             req.session.userLogged = updatedUser;
     
             res.redirect('/users/profile'); 
@@ -254,13 +213,9 @@ const usersController = {
             })
             const uploadedImage = await uploadPromise
 
-            await User.update(
-                {avatar: customFileName}, 
-                {where : {id: req.params.id}}
-            )
-            const updatedUser = await User.findOne({ where: { id: req.params.id } ,
-                include: [{ association: "addresses" }]
-            });
+            await userServices.updateAvatar(customFileName, req.params.id)
+
+            const updatedUser = await userServices.getUserById(req.session.userLogged.id)
     
             req.session.userLogged = updatedUser;
     
@@ -279,20 +234,18 @@ const usersController = {
                     user: req.session.userLogged
                 })
             }
-            const userToUpdate = await User.findOne({ where: { email: req.body.email } });
+            const userToUpdate = await userServices.getUserByEmail(req.body.email)
+
             const correctPassword = bcryptjs.compareSync(req.body.actualPass, userToUpdate.password);
+            
             if ((correctPassword) && (req.body.newPass == req.body.checkNewPass)) {
-                User.update({
-                    password: bcryptjs.hashSync(req.body.newPass, 10),
-                        }, {where : {id: userToUpdate.id}}
-                        )
-                        const updatedUser = await User.findOne({ where: { id: req.params.id },
-                            include: [{ association: "addresses" }]
-                        });
-    
-                        req.session.userLogged = updatedUser;
-    
-                        res.redirect('/users/profile'); 
+                await userServices.updatePass(req.body.newPass, userToUpdate.id)
+                
+                const updatedUser = await userServices.getUserById(req.session.userLogged.id)
+
+                req.session.userLogged = updatedUser;
+
+                res.redirect('/users/profile'); 
             }
         } catch (error) { 
             console.log(error.message); 
@@ -301,8 +254,13 @@ const usersController = {
 
     destroy: async (req, res) => {
         try {
-            await User.destroy({ where: {id: req.params.id} });
+            let user = await userServices.getUserById(req.params.id)
+
+            await userServices.deleteUser(req.params.id)
+            await userServices.deleteAddress(user.address_id)
+
             req.session.destroy();
+
             return res.redirect('/');
         } catch (error) {
             console.log(error.message)
@@ -320,9 +278,7 @@ const usersController = {
     processOrder: async (req , res) => {
         try {
             // Crea una nueva orden en la tabla Order
-            const order = await Order.create({
-              user_id: req.body.userId
-            });
+            const order = await userServices.createOrder(req.body.userId)
         
             // Variable para rastrear si hay suficiente stock para todos los productos
             let stockOk = true;
@@ -335,19 +291,24 @@ const usersController = {
               const totalPrice = parseFloat(req.body[`precio_total_${i}`].replace(/[^0-9.]/g, '')).toFixed(2)
         
               // Busca el producto por nombre en la tabla Product (asegúrate de que los campos coincidan)
-              const product = await Product.findOne({ where: { name: productName } });
-        
+              //productName
+              const product = await productServices.getProductByName(productName)
+              const productDetail = await productServices.getProductDetailsBySku(product.sku)
+              
+              for (size of productDetail.size_id)
               // Verifica si hay suficiente stock disponible
-              if (product && product.stock >= quantity) {
-                await OrderDetail.create({
-                  order_id: order.id,
-                  product_sku: product.sku, // Asegúrate de que los campos coincidan
-                  quantity: quantity,
-                  unit_price: unitPrice,
-                  total_amount: totalPrice,
-                });
+              if (product && productDetail.stock >= quantity) {
+                await userServices.createOrderDetail(
+                    order.id,
+                    product.sku, 
+                    productDetail.size_id,
+                    quantity, 
+                    unitPrice, 
+                    totalPrice
+                )
         
                 // Actualiza el stock del producto restando la cantidad vendida
+
                 const updatedStock = product.stock - quantity;
                 await product.update({ stock: updatedStock });
               } else {

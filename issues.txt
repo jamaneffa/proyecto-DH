@@ -1,0 +1,2 @@
+modificar logica de procesamiento de orden segun base de datos
+modificar contrladores de apis para que usen servicios
